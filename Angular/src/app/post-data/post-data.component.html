@@ -1,0 +1,132 @@
+<div class="container mt-1">
+    <div class="col-md-4 container">
+        <h2>Add New Employee</h2>
+        <form [formGroup]="PostForm" (ngSubmit)="PostUserData(PostForm.value)">
+            <div class="mb-3">
+                <label class="form-label">First Name</label><span class="required">*</span>
+                <input type="text" class="form-control" formControlName="firstName" required>
+                <span *ngIf="PostForm.controls['firstName'].touched && PostForm.controls['firstName'].invalid"
+                    class="error">
+                    Please enter first name
+                </span>
+
+                <div *ngIf="PostForm.get('firstName').hasError('minlength')" class='alert alert-primary'>
+                    Please enter atleat 2 chars
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Last Name</label><span class="required">*</span>
+                <input type="text" class="form-control" formControlName="lastName" required>
+                <span *ngIf="PostForm.controls['lastName'].touched && PostForm.controls['lastName'].invalid"
+                    class="error">
+                    Please enter last name
+                </span>
+
+                <div *ngIf="PostForm.get('lastName').hasError('minlength')" class='alert alert-primary mt-2 mb-2'>
+                    Please enter atleat 2 chars
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Address</label><span class="required">*</span>
+                <input type="text" class="form-control" formControlName="address" required>
+                <span *ngIf="PostForm.controls['address'].touched && PostForm.controls['address'].invalid"
+                    class="error">
+                    Please enter address
+                </span>
+                <div *ngIf="PostForm.get('address').hasError('minlength')" class='alert alert-primary mt-2 mb-2'>
+                    Please enter atleat 2 chars
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label><span class="required">*</span>
+                <input type="number" class="form-control" formControlName="phone" required (keypress)="valid($event)">
+                <span *ngIf="PostForm.controls['phone'].touched && PostForm.controls['phone'].invalid" class="error">
+                    Please enter number
+                </span>
+                <div *ngIf="PostForm.get('phone').hasError('min') || PostForm.get('phone').hasError('max')" class='alert alert-primary'>
+                    Please enter only 10 char
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label><span class="required">*</span>
+                <input type="text" class="form-control" formControlName="email" required>
+                <span *ngIf="PostForm.controls['email'].touched && PostForm.controls['email'].invalid" class="error">
+                    Please enter email
+                </span>
+                <div *ngIf="PostForm.get('email').hasError('email')" class='alert alert-primary'>
+                    Please enter proper email
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">ZipCode</label><span class="required">*</span>
+                <input type="text" class="form-control" formControlName="zipCode" required>
+                <span *ngIf="PostForm.controls['zipCode'].touched && PostForm.controls['zipCode'].invalid"
+                    class="error">
+                    Please enter ZipCode
+                </span>
+                <div *ngIf="PostForm.get('zipCode').hasError('minlength') || PostForm.get('zipCode').hasError('maxlength')" class='alert alert-primary'>
+                    Please enter only 5-10 chars
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">DOB</label><span class="required">*</span><br>
+                <!-- <input type="date" class="form-control" formControlName="dob" required> -->
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" formControlName="dob">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <span *ngIf="PostForm.controls['dob'].touched  && PostForm.controls['dob'].invalid" class="error">
+                    Required
+                </span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Gender</label><span class="required">*</span>
+                <select formControlName="gender">
+                    <option *ngFor="let el of genders" value="{{el}}">{{el}}</option>
+                </select>
+                <span *ngIf="PostForm.controls['gender'].touched && PostForm.controls['gender'].invalid" class="error">
+                    Please enter gender
+                </span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Country</label><span class="required">*</span>
+                <select #country formControlName="countryId" (change)="StateApi(country.value)">
+                    <option value="" selected>Select</option>
+                    <option *ngFor="let el of countryData" value="{{el.countryId}}">{{el.countryName}}</option>
+                </select>
+                <span *ngIf="PostForm.controls['countryId'].touched && PostForm.controls['countryId'].invalid"
+                    class="error">
+                    Please select country
+                </span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">State</label><span class="required">*</span>
+                <select #state formControlName="stateId" (change)="CityApi(state.value)">
+                    <option value="" selected>Select</option>
+                    <option *ngFor="let el of stateData" value="{{el.stateId}}">{{el.stateName}}</option>
+                </select>
+                <span *ngIf="PostForm.controls['stateId'].touched && PostForm.controls['stateId'].invalid"
+                    class="error">
+                    Please select state
+                </span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">City</label><span class="required">*</span>
+                <select formControlName="cityId">
+                    <option value="" selected>Select</option>
+                    <option *ngFor="let el of cityData" value="{{el.cityId}}">{{el.cityName}}</option>
+                </select>
+                <span *ngIf="PostForm.controls['cityId'].touched && PostForm.controls['cityId'].invalid" class="error">
+                    Please select city
+                </span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Upload Profile</label><span class="required">*</span>
+                <input type="file" formControlName="imgLoc" accept="image/*" (change)="convertToByte($event)">
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="!PostForm.valid">Save</button>
+        </form>
+    </div>
+</div>

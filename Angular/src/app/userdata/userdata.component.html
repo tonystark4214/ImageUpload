@@ -1,0 +1,29 @@
+<div class="container mt-5" style="display:flex;align-items: center;justify-content: center; flex-direction: column;">
+    <div class=" mb-5" style="display:flex;align-items: center;justify-content: center; flex-direction: column;">
+        <div><img class="mb-3" src="{{imgUrl}}" alt="" style="width:200px; height:200px;"></div>
+        <div><font>{{data.firstName + data.lastName}}</font></div>
+    </div>
+    <div style="width:100%">
+        <table style="width:100%" border="1px" >
+            <tr>
+                <td><font>Gender :</font>{{data.gender}} </td>
+                <td><font>DOB : </font>{{data.dob | date}}</td>
+            </tr>
+            <tr>
+                <td><font>Phone : </font>{{data.phone}}</td>
+                <td><font>Email :</font> {{data.email}}</td>
+            </tr>
+            <tr>
+                <td><font>Country : </font>{{data.countryName}}</td>
+                <td><font>State : </font>{{data.stateName}}</td>
+            </tr>
+            <tr>
+                <td><font>City : </font>{{data.cityName}}</td>
+                <td><font>ZipCode : </font>{{data.zipCode}}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: left; padding-left:50px;"><font>Address :</font> {{data.address}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
